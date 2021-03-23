@@ -10,6 +10,7 @@ const TileEditor = ({ visible, content, onSave, setVisible }) => {
 	const [body, setBody] = useState();
 
 	useEffect(() => {
+		if (!content) return;
 		setTitle(content.title);
 		setBody(content.body);
 	}, [content]);
@@ -41,9 +42,9 @@ const TileEditor = ({ visible, content, onSave, setVisible }) => {
 					suppressContentEditableWarning={true}
 					onKeyUp={handleKeyUp}
 				>
-					{content.title}
+					{title}
 				</h1>
-				<RichText height='250' value={content.body} setBody={setBody} />
+				<RichText height='250' value={body} setBody={setBody} />
 				<Button
 					color='secondary'
 					variant='contained'

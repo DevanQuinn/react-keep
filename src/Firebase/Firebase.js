@@ -1,19 +1,38 @@
 import firebase from 'firebase/app';
 import 'firebase/analytics';
 import 'firebase/auth';
-import 'firebase/firestore';
+import 'firebase/database';
 
 const firebaseConfig = {
-	apiKey: 'AIzaSyDn-QaVOWUJtQhaSU3nHh9RDWU_aCHKTdg',
-	authDomain: 'react-keep-308103.firebaseapp.com',
-	projectId: 'react-keep-308103',
-	storageBucket: 'react-keep-308103.appspot.com',
-	messagingSenderId: '207147364239',
-	appId: '1:207147364239:web:55e24a32049b627d51e5fa',
-	measurementId: 'G-M6LVZYVBB4',
+	apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
+	authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
+	projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+	storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
+	messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
+	appId: process.env.REACT_APP_FIREBASE_APP_ID,
+	measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
+	databaseURL: process.env.REACT_APP_FIREBASE_DATABASE_URL,
 };
 firebase.initializeApp(firebaseConfig);
 // firebase.analytics();
+const createUserProfile = user => {
+	const databaseRef = firebase.database().ref('users/' + user.uid);
+	databaseRef.get().then(snapshot => {
+		if (snapshot.exists()) {
+			firebase.content = snapshot.val().content;
+		} else {
+			databaseRef
+				.set({
+					name: user.displayName,
+					email: user.email,
+					content: [
+						{ title: 'Tile', body: 'This is a sample tile.', index: 0 },
+					],
+				})
+				.then(() => console.log('done'));
+		}
+	});
+};
 
 const login = () => {
 	const provider = new firebase.auth.GoogleAuthProvider();
@@ -24,8 +43,10 @@ const login = () => {
 			// const credential = result.credential;
 			// This gives you a Google Access Token. You can use it to access the Google API.
 			// const token = credential.accessToken;
+			firebase.user = result.user;
 			// The signed-in user info.
 			// ...,
+			createUserProfile(result.user);
 		})
 		.catch(error => {
 			// // Handle Errors here.

@@ -3,11 +3,8 @@ import Tile from './Tile/Tile';
 import TileEditor from './TileEditor/TileEditor';
 import './TileContainer.css';
 
-const TileContainer = () => {
-	const [content, setContent] = useState([
-		{ title: 'hi', body: 'hello there', index: 0 },
-		{ title: 'bye', body: 'goodbye now', index: 1 },
-	]);
+const TileContainer = ({ userContent }) => {
+	const [content, setContent] = useState(userContent || []);
 	const [index, setIndex] = useState(0);
 	const [isVisible, toggleIsVisible] = useReducer(visible => !visible, false);
 
@@ -24,24 +21,30 @@ const TileContainer = () => {
 		toggleIsVisible();
 	};
 
-	const editor = (
-		<TileEditor
-			content={content[index]}
-			visible={isVisible}
-			setVisible={toggleIsVisible}
-			onSave={handleSave}
-			className='editor'
-		/>
+	let editor = null;
+	if (userContent)
+		editor = (
+			<TileEditor
+				content={userContent[index] || null}
+				visible={isVisible}
+				setVisible={toggleIsVisible}
+				onSave={handleSave}
+				className='editor'
+			/>
+		);
+	let tiles = null;
+	tiles = (
+		<div className='container'>
+			{userContent?.map(tile => (
+				<Tile content={tile} onClick={handleClose} key={tile.index} />
+			))}
+		</div>
 	);
 
 	return (
 		<>
 			{editor}
-			<div className='container'>
-				{content.map(tile => (
-					<Tile content={tile} onClick={handleClose} key={tile.index} />
-				))}
-			</div>
+			{tiles}
 		</>
 	);
 };

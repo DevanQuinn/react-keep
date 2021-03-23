@@ -77,7 +77,7 @@ const RichText = ({ width = 500, height = 500, value, setBody }) => {
 				onClick={handleFocus}
 				onKeyUp={handleFocus}
 			>
-				{parse(value)}
+				{value ? parse(value) : null}
 			</div>
 		</div>
 	);

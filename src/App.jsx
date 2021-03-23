@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { firebase, logout } from './Firebase/Firebase';
 import TileContainer from './Components/TileContainer/TileContainer';
 import { AppBar, Toolbar, IconButton, Tooltip } from '@material-ui/core';
@@ -8,10 +8,34 @@ import './App.css';
 import GoogleLogin from './Components/GoogleLogin/GoogleLogin';
 
 const App = () => {
-	const [userData, setUserData] = useState(-1);
+	const [userData, setUserData] = useState();
+	const [userContent, setUserContent] = useState(null);
 	firebase.auth().onAuthStateChanged(user => {
+		if (userData) return;
 		setUserData(user);
+		if (user)
+			firebase
+				.database()
+				.ref('users/' + user.uid)
+				.get()
+				.then(snapshot => {
+					if (!snapshot.exists()) return;
+					setUserContent(snapshot.val());
+				});
 	});
+	// useEffect(() => {
+	// 	if (!userData) return;
+	// 	const databaseRef = firebase.database().ref('users/' + userData.uid);
+	// 	databaseRef.on('value', snapshot => {
+	// 		if (!snapshot.exists()) return;
+	// 		const data = snapshot.val();
+	// 		setUserContent(data);
+	// 	});
+	// 	return () => {
+	// 		setUserContent(null);
+	// 		setUserData(null);
+	// 	};
+	// }, [userData, userContent]);
 
 	if (!userData) return <GoogleLogin />;
 
@@ -34,7 +58,7 @@ const App = () => {
 					</Tooltip>
 				</Toolbar>
 			</AppBar>
-			<TileContainer />
+			<TileContainer userContent={userContent?.content} />
 		</>
 	);
 };
