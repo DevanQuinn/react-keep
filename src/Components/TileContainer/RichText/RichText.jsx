@@ -1,9 +1,6 @@
 import './RichText.css';
 import { useRef } from 'react';
 import parse from 'html-react-parser';
-import FormatBoldIcon from '@material-ui/icons/FormatBold';
-import FormatItalicIcon from '@material-ui/icons/FormatItalic';
-import FormatUnderlinedIcon from '@material-ui/icons/FormatUnderlined';
 
 const RichText = ({ width = 500, height = 500, value, setBody }) => {
 	const contentArea = useRef();

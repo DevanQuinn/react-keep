@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { firebase, login, logout } from './Firebase/Firebase';
+import { useState } from 'react';
+import { firebase, logout } from './Firebase/Firebase';
 import TileContainer from './Components/TileContainer/TileContainer';
 import { AppBar, Toolbar, IconButton, Tooltip } from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
