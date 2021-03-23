@@ -1,0 +1,55 @@
+.rich-text {
+	min-height: 100px;
+	min-width: 500px;
+	border-top: 1px solid black;
+	/* border-radius: 10px; */
+	position: relative;
+	display: flex;
+	flex-flow: column nowrap;
+}
+
+.rich-button-list {
+	list-style: none;
+	display: flex;
+	flex-flow: row wrap;
+	margin: 0;
+	padding: 0;
+	background-color: rgb(236, 236, 236);
+}
+
+.rich-button-list button {
+	background-color: white;
+	margin: 0;
+	padding: 10px 15px;
+	font-size: 18px;
+	cursor: pointer;
+	border: none;
+	outline: none;
+}
+
+.selected {
+	color: red;
+}
+
+.rich-text-content {
+	position: relative;
+	overflow: auto;
+	width: auto;
+	height: 100%;
+	padding: 10px;
+	margin: 0;
+	border-top: 1px solid black;
+	/* border: 1px solid black; */
+}
+
+.rich-text-content:focus {
+	outline: none;
+}
+
+.rich-text-close {
+	position: absolute;
+	right: 0;
+	height: 100px;
+	width: auto;
+	cursor: pointer;
+}

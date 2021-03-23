@@ -1,0 +1,34 @@
+.tile-bkg {
+	min-height: 10px;
+	width: 200px;
+	border-radius: 10px;
+	padding: 20px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	background-color: rgb(181, 202, 246);
+	margin: 10px;
+	cursor: pointer;
+	transition: all 0.2s ease-out;
+}
+
+.tile-bkg:hover {
+	box-shadow: 0 0 3px black;
+}
+
+.tile-title {
+	margin: 0 auto;
+	font-size: 18px;
+}
+
+.tile-body {
+	font-size: 12px;
+}
+
+.tile-title,
+.tile-body {
+	pointer-events: none;
+	-webkit-touch-callout: none;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
