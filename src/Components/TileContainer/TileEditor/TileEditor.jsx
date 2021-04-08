@@ -20,7 +20,7 @@ const TileEditor = ({ visible, content, onSave, setVisible }) => {
 	};
 
 	const handleKeyUp = e => {
-		setTitle(e.target.innerHTML);
+		setTitle(e.target.value);
 	};
 
 	const handleSave = () => {
@@ -34,17 +34,33 @@ const TileEditor = ({ visible, content, onSave, setVisible }) => {
 		<div ref={editor} style={{ display: visible ? 'block' : 'none' }}>
 			<div className='background' onClick={closeEditor}></div>
 			<div className='foreground'>
-				<IconButton style={{ float: 'right' }} onClick={closeEditor}>
-					<CancelIcon />
-				</IconButton>
-				<h1
-					contentEditable='true'
-					suppressContentEditableWarning={true}
-					onKeyUp={handleKeyUp}
+				<IconButton
+					style={{
+						position: 'absolute',
+						right: '0',
+						zIndex: '5',
+					}}
+					onClick={closeEditor}
 				>
-					{title}
-				</h1>
-				<RichText height='250' value={body} setBody={setBody} />
+					<CancelIcon fontSize='large' />
+				</IconButton>
+				<div className='title-container'>
+					<input
+						defaultValue={title}
+						onInput={handleKeyUp}
+						className='title'
+					></input>
+				</div>
+
+				{visible ? (
+					<RichText
+						height='250'
+						value={content.body}
+						setBody={setBody}
+						visible={visible}
+					/>
+				) : null}
+
 				<Button
 					color='secondary'
 					variant='contained'

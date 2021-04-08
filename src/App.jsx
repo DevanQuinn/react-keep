@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { firebase, logout } from './Firebase/Firebase';
 import TileContainer from './Components/TileContainer/TileContainer';
 import { AppBar, Toolbar, IconButton, Tooltip } from '@material-ui/core';
@@ -8,7 +8,7 @@ import './App.css';
 import GoogleLogin from './Components/GoogleLogin/GoogleLogin';
 
 const App = () => {
-	const [userData, setUserData] = useState();
+	const [userData, setUserData] = useState(undefined);
 	const [userContent, setUserContent] = useState(null);
 	firebase.auth().onAuthStateChanged(user => {
 		if (userData) return;
@@ -37,7 +37,7 @@ const App = () => {
 	// 	};
 	// }, [userData, userContent]);
 
-	if (!userData) return <GoogleLogin />;
+	if (userData === null) return <GoogleLogin />;
 
 	return (
 		<>
@@ -58,7 +58,11 @@ const App = () => {
 					</Tooltip>
 				</Toolbar>
 			</AppBar>
-			<TileContainer userContent={userContent?.content} />
+			<React.StrictMode>
+				{userContent ? (
+					<TileContainer userContent={userContent?.content} />
+				) : null}
+			</React.StrictMode>
 		</>
 	);
 };

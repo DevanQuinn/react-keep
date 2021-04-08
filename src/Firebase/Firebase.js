@@ -43,7 +43,6 @@ const login = () => {
 			// const credential = result.credential;
 			// This gives you a Google Access Token. You can use it to access the Google API.
 			// const token = credential.accessToken;
-			firebase.user = result.user;
 			// The signed-in user info.
 			// ...,
 			createUserProfile(result.user);
@@ -60,6 +59,16 @@ const login = () => {
 		});
 };
 
+const writeData = content => {
+	const user = firebase.auth().currentUser.uid;
+	firebase
+		.database()
+		.ref('/users/' + user)
+		.set({ content })
+		.then(() => console.log('done'))
+		.catch(err => console.log(err));
+};
+
 const logout = () => {
 	firebase
 		.auth()
@@ -72,4 +81,4 @@ const logout = () => {
 		});
 };
 
-export { login, logout, firebase };
+export { login, logout, firebase, writeData };
