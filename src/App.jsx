@@ -58,11 +58,9 @@ const App = () => {
 					</Tooltip>
 				</Toolbar>
 			</AppBar>
-			<React.StrictMode>
-				{userContent ? (
-					<TileContainer userContent={userContent?.content} />
-				) : null}
-			</React.StrictMode>
+			{userContent ? (
+				<TileContainer userContent={userContent?.content} />
+			) : null}
 		</>
 	);
 };

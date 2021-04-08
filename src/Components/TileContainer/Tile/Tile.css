@@ -44,3 +44,10 @@
 	-ms-user-select: none;
 	user-select: none;
 }
+
+.delete-button {
+	/* background-color: white; */
+	margin: 10px;
+	border-radius: 25px;
+	float: right;
+}

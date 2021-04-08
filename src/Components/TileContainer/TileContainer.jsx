@@ -2,6 +2,7 @@ import { useState, useReducer } from 'react';
 import Tile from './Tile/Tile';
 import TileEditor from './TileEditor/TileEditor';
 import CreateTile from './Tile/CreateTile';
+import Popup from './Popup/Popup';
 import './TileContainer.css';
 import { writeData } from '../../Firebase/Firebase';
 
@@ -9,10 +10,27 @@ const TileContainer = ({ userContent }) => {
 	const [content, setContent] = useState(userContent || []);
 	const [index, setIndex] = useState(0);
 	const [isVisible, toggleIsVisible] = useReducer(visible => !visible, false);
+	const [popupInfo, setPopupInfo] = useState({ open: false });
 
 	const handleClose = contentIndex => {
 		setIndex(contentIndex);
 		toggleIsVisible();
+	};
+	const handleDelete = deleteIndex => {
+		const filterContent = content.filter(data => data.index !== deleteIndex);
+		filterContent.map((data, idx) => (data.index = idx));
+		setContent(filterContent);
+		writeData(filterContent);
+
+		const info = {
+			open: true,
+			message: 'Title deleted.',
+		};
+		if (popupInfo.open) {
+			setPopupInfo({ open: false, message: popupInfo.message });
+			return setTimeout(() => setPopupInfo(info), 150);
+		}
+		setPopupInfo(info);
 	};
 	const handleSave = inputContent => {
 		const contentIndex = inputContent.index;
@@ -22,7 +40,6 @@ const TileContainer = ({ userContent }) => {
 		setContent(newContent);
 		toggleIsVisible();
 		writeData(newContent);
-		console.log(newContent);
 	};
 
 	let editor = null;
@@ -40,7 +57,12 @@ const TileContainer = ({ userContent }) => {
 	tiles = (
 		<div className='container'>
 			{content?.map(tile => (
-				<Tile content={tile} onClick={handleClose} key={tile.index} />
+				<Tile
+					content={tile}
+					onClick={handleClose}
+					key={tile.index}
+					onDelete={handleDelete}
+				/>
 			))}
 			<CreateTile content={content} setContent={setContent} />
 		</div>
@@ -50,6 +72,7 @@ const TileContainer = ({ userContent }) => {
 		<>
 			{editor}
 			{tiles}
+			<Popup info={popupInfo} setInfo={setPopupInfo} />
 		</>
 	);
 };
