@@ -3,5 +3,5 @@
 html {
 	font-family: 'Montserrat', 'Georgia', serif;
 	word-spacing: 0.1px;
-	overflow: hidden;
+	overflow: scroll;
 }

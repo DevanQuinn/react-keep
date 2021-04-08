@@ -4,3 +4,9 @@
 	justify-content: flex-start;
 	margin: 20px;
 }
+
+@media only screen and (max-width: 1024px) {
+	.container {
+		justify-content: center;
+	}
+}

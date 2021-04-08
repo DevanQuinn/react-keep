@@ -6,7 +6,7 @@ const RichText = ({ width = 500, height = 500, value, setBody, visible }) => {
 			className='rich-text'
 			style={{
 				overflow: 'auto',
-				width: `${width}px`,
+				// width: `${width}px`,
 				height: `${height}px`,
 			}}
 		>
